@@ -15,18 +15,24 @@ APOLOGY = (
 MAX_CHARS = 200
 
 
-def main() -> None:
-    line = APOLOGY.strip()
-    if not line:
+def _validate(line: str) -> str:
+    """Check one apology line against the competition gate and return it."""
+    text = line.strip()
+    if not text:
         raise SystemExit("apology line is empty")
-    if "\n" in line or "\r" in line:
+    if "\n" in text or "\r" in text:
         raise SystemExit("apology line must be a single line")
-    if line.count(".") != 1 or not line.endswith("."):
+    if text.count(".") != 1 or not text.endswith("."):
         raise SystemExit("apology line must be exactly one sentence")
-    if len(line) > MAX_CHARS:
+    if len(text) > MAX_CHARS:
         raise SystemExit(
-            f"apology line is {len(line)} chars, over the {MAX_CHARS} limit"
+            f"apology line is {len(text)} chars, over the {MAX_CHARS} limit"
         )
+    return text
+
+
+def main() -> None:
+    line = _validate(APOLOGY)
     import os
 
     os.makedirs("/output", exist_ok=True)
